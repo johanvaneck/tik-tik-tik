@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Tik 'n bietjie</title>
+	<style>
+		html, body {
+			margin: 0;
+			padding: 0;
+			width: 100%;
+			height: 100%;
+		}
+		.letter {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			width: 100vw;
+			height: 100vh;
+			text-align: center;
+			line-height: 100%;
+			font-size: min(50vw, 50vh);
+			background-color: black;
+			color: white;
+		}
+	</style>
+</head>
+<body>
+	<div class="letter"></div>
+</body>
+<script>
+	const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+	let currentLetter = '';
+
+	function getRandomLetter() {
+		const letter = alphabet[Math.floor(Math.random() * alphabet.length)];
+		console.log("New letter: " + letter);
+		return letter;
+	}
+	function setLetter(letter) {
+		console.log("Setting letter: " + letter);
+		currentLetter = letter;
+		document.querySelector('.letter').innerHTML = letter;
+	}
+
+	function handleKeyPress(e) {
+		e.preventDefault();
+		e.stopPropagation();
+
+		// If the key pressed is not the same as the current letter, do nothing
+		if (e.key !== currentLetter.toLowerCase()) {
+			console.log("Key pressed is not the same as the current letter. Pressed: " + e.key + ", current: " + currentLetter);
+			return;
+		}
+		else {
+			setLetter(getRandomLetter());
+		}
+	}
+
+	// Start
+	document.addEventListener('keydown', handleKeyPress);
+	setLetter(getRandomLetter());
+</script>
+</html>
