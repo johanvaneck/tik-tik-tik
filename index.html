@@ -1,15 +1,32 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<title>Tik 'n bietjie</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap" rel="stylesheet">
+
 	<style>
-		html, body {
+		html,
+		body {
 			margin: 0;
 			padding: 0;
 			width: 100%;
 			height: 100%;
+
+			font-family: "Didact Gothic", sans-serif;
+			font-weight: 400;
+			font-style: normal;
 		}
-		.letter {
+
+		.didact-gothic-regular {
+			font-family: "Didact Gothic", sans-serif;
+			font-weight: 400;
+			font-style: normal;
+		}
+
+		.letter-container {
 			display: flex;
 			justify-content: center;
 			align-items: center;
@@ -21,43 +38,242 @@
 			background-color: black;
 			color: white;
 		}
+
+		.image-container {
+			position: absolute;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			width: 100%;
+			height: 100%;
+		}
+
+		.image {
+			display: none;
+			width: 50%;
+			border-radius: 10px;
+		}
+
+		.shake-x {
+			animation: shakeAnnimationX 2s ease-in-out infinite;
+		}
+		.shake-y {
+			animation: shakeAnnimationY 2s ease-in-out infinite;
+		}
+
+		@keyframes shakeAnnimationX {
+			0% {
+				transform: translateX(0);
+			}
+
+			10% {
+				transform: translateX(-10px);
+			}
+
+			20% {
+				transform: translateX(10px);
+			}
+
+			30% {
+				transform: translateX(-10px);
+			}
+
+			40% {
+				transform: translateX(10px);
+			}
+
+			50% {
+				transform: translateX(-10px);
+			}
+
+			60% {
+				transform: translateX(10px);
+			}
+
+			70% {
+				transform: translateX(-10px);
+			}
+
+			80% {
+				transform: translateX(10px);
+			}
+
+			90% {
+				transform: translateX(-10px);
+			}
+
+			100% {
+				transform: translateX(0);
+			}
+		}
+
+		@keyframes shakeAnnimationY {
+			0% {
+				transform: translateY(0);
+			}
+
+			10% {
+				transform: translateY(-10px);
+			}
+
+			20% {
+				transform: translateY(10px);
+			}
+
+			30% {
+				transform: translateY(-10px);
+			}
+
+			40% {
+				transform: translateY(10px);
+			}
+
+			50% {
+				transform: translateY(-10px);
+			}
+
+			60% {
+				transform: translateY(10px);
+			}
+
+			70% {
+				transform: translateY(-10px);
+			}
+
+			80% {
+				transform: translateY(10px);
+			}
+
+			90% {
+				transform: translateY(-10px);
+			}
+
+			100% {
+				transform: translateY(0);
+			}
+		}
 	</style>
 </head>
+
 <body>
-	<div class="letter"></div>
+	<div style="position: relative;">
+		<div class="image-container">
+			<img class="image shake-y"
+				src="https://i.pinimg.com/236x/b8/36/c3/b836c3cb83aeaf09a2ea4a80bd73f9e8.jpg"
+				alt="motivational image">
+		</div>
+		<div class="letter-container">
+			<span class="letter"></span>
+		</div>
+	</div>
 </body>
+
 <script>
-	const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	const partyPopperImgLink = 'https://media.istockphoto.com/id/1125716911/vector/party-popper-with-confetti.jpg?s=612x612&w=0&k=20&c=sAyofM-MQ5TL-pLyFseV9Vke_W2zyYX1btP90oGJQZE='
+
+	const catImgLink = 'https://img.freepik.com/premium-vector/cute-cartoon-orange-tabby-cat-sitting-with-big-green-eyes_1220328-10034.jpg';
+
+	const letterToPictureMap = new Map([
+		['a', partyPopperImgLink],
+		['b', partyPopperImgLink],
+		['c', partyPopperImgLink],
+		['d', partyPopperImgLink],
+		['e', partyPopperImgLink],
+		['f', partyPopperImgLink],
+		['g', partyPopperImgLink],
+		['h', partyPopperImgLink],
+		['i', partyPopperImgLink],
+		['j', partyPopperImgLink],
+		['k', partyPopperImgLink],
+		['l', partyPopperImgLink],
+		['m', catImgLink],
+		['n', catImgLink],
+		['o', catImgLink],
+		['p', catImgLink],
+		['q', catImgLink],
+		['r', catImgLink],
+		['s', catImgLink],
+		['t', catImgLink],
+		['u', catImgLink],
+		['v', catImgLink],
+		['w', catImgLink],
+		['x', catImgLink],
+		['y', catImgLink],
+		['z', catImgLink],
+	])
 
 	let currentLetter = '';
 
 	function getRandomLetter() {
-		const letter = alphabet[Math.floor(Math.random() * alphabet.length)];
-		console.log("New letter: " + letter);
+		const alphabet = Array.from(letterToPictureMap.keys());
+		const randomIndex = Math.floor(Math.random() * alphabet.length);
+		const letter = alphabet[randomIndex];
 		return letter;
 	}
-	function setLetter(letter) {
-		console.log("Setting letter: " + letter);
+
+	function showNewRandomLetter() {
+		const letter = getRandomLetter();
 		currentLetter = letter;
 		document.querySelector('.letter').innerHTML = letter;
 	}
 
-	function handleKeyPress(e) {
-		e.preventDefault();
-		e.stopPropagation();
+	function removeLetter() {
+		document.querySelector('.letter').innerHTML = '';
+	}
+
+	function showImage() {
+		const src = letterToPictureMap.get(currentLetter);
+		const imgTag = document.querySelector('.image');
+		imgTag.src = src;
+		imgTag.style.display = 'block';
+	}
+
+	function hideImage() {
+		document.querySelector('.image').style.display = 'none';
+	}
+
+	function addLetterShakeClass() {
+		document.querySelector('.letter').classList.add('shake-x');
+	}
+
+	function removeLetterShakeClass() {
+		document.querySelector('.letter').classList.remove('shake-x');
+	}
+
+	function handleCorrectKeyPress() {
+		removeLetter();
+		showImage();
+
+		// Wait for 3 seconds
+		setTimeout(() => {
+			hideImage();
+			showNewRandomLetter();
+		}, 2000);
+	}
+
+	function handleIncorrectKeyPress() {
+		addLetterShakeClass();
+		setTimeout(() => {
+			removeLetterShakeClass();
+		}, 500);
+	}
+
+	function handleKeyPress(event) {
+		event.preventDefault();
+		event.stopPropagation();
 
 		// If the key pressed is not the same as the current letter, do nothing
-		if (e.key !== currentLetter.toLowerCase()) {
-			console.log("Key pressed is not the same as the current letter. Pressed: " + e.key + ", current: " + currentLetter);
-			return;
+		if (event.key === currentLetter.toLowerCase()) {
+			handleCorrectKeyPress();
 		}
 		else {
-			setLetter(getRandomLetter());
+			handleIncorrectKeyPress();
 		}
 	}
 
 	// Start
 	document.addEventListener('keydown', handleKeyPress);
-	setLetter(getRandomLetter());
+	showNewRandomLetter();
 </script>
+
 </html>
